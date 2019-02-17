@@ -974,99 +974,99 @@ public class DynamicArray
         return NewArray;
     }
 
-    /// Traingles Struct
-    public static Triangles[] AddTriangleToArray(Triangles[] Prev, Triangles NewInput)
-    {
-        if (Prev == null)
-        {
-            Prev = new Triangles[0];
-        }
-        Triangles[] NewArray = new Triangles[Prev.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
-        {
-            if (i < Prev.Length)
-            {
-                NewArray[i] = Prev[i];
-            }
-            else
-            {
-                NewArray[i] = NewInput;
-            }
-        }
-        return NewArray;
-    }
-    public static Triangles[] AddTriangleToArrayAtIndex(Triangles[] Prev, Triangles NewInput, int Index)
-    {
-        if (Prev == null)
-        {
-            Prev = new Triangles[0];
-        }
-        Triangles[] NewArray = new Triangles[Prev.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
-        {
-            if (i < Index)
-            {
-                NewArray[i] = Prev[i];
-            }
-            if (i == Index)
-            {
-                NewArray[i] = NewInput;
-            }
-            if (i > Index)
-            {
-                NewArray[i] = Prev[i - 1];
-            }
-        }
-        return NewArray;
-    }
-    public static Triangles[] AddTriangleArrayToArray(Triangles[] Prev, Triangles[] NewInput)
-    {
-        if (Prev == null)
-        {
-            Prev = new Triangles[0];
-        }
-        Triangles[] NewArray = new Triangles[Prev.Length + 1];
-        for (int i = 0, i_ = 0; i < NewArray.Length; i++)
-        {
-            if (i < Prev.Length)
-            {
-                NewArray[i] = Prev[i];
-            }
-            else
-            {
-                NewArray[i] = NewInput[i_++];
-            }
-        }
-        return NewArray;
-    }
-    /*
-    public static Triangles[] CleanTriangleArray(Triangles[] Prev, Triangles RemoveValue)
-    {
-        Triangles[] NewArray = new Triangles[0];
-        for (int i = 0; i < Prev.Length; i++)
-        {
-            if (Prev[i] != RemoveValue)
-            {
-                NewArray = AddTriangleToArray(NewArray, Prev[i]);
-            }
-        }
-        return NewArray;
-    }
-    */
-    public static Triangles[] RemoveTrianglelByIndex(Triangles[] Prev, int Remove)
-    {
-        if (Prev == null)
-        {
-            Prev = new Triangles[0];
-        }
-        Triangles[] NewArray = new Triangles[0];
-        for (int i = 0; i < Prev.Length; i++)
-        {
-            if (i != Remove)
-            {
-                NewArray = AddTriangleToArray(NewArray, Prev[i]);
-            }
-        }
-        return NewArray;
-    }
+    ///// Traingles Struct
+    //public static Triangles[] AddTriangleToArray(Triangles[] Prev, Triangles NewInput)
+    //{
+    //    if (Prev == null)
+    //    {
+    //        Prev = new Triangles[0];
+    //    }
+    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
+    //    for (int i = 0; i < NewArray.Length; i++)
+    //    {
+    //        if (i < Prev.Length)
+    //        {
+    //            NewArray[i] = Prev[i];
+    //        }
+    //        else
+    //        {
+    //            NewArray[i] = NewInput;
+    //        }
+    //    }
+    //    return NewArray;
+    //}
+    //public static Triangles[] AddTriangleToArrayAtIndex(Triangles[] Prev, Triangles NewInput, int Index)
+    //{
+    //    if (Prev == null)
+    //    {
+    //        Prev = new Triangles[0];
+    //    }
+    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
+    //    for (int i = 0; i < NewArray.Length; i++)
+    //    {
+    //        if (i < Index)
+    //        {
+    //            NewArray[i] = Prev[i];
+    //        }
+    //        if (i == Index)
+    //        {
+    //            NewArray[i] = NewInput;
+    //        }
+    //        if (i > Index)
+    //        {
+    //            NewArray[i] = Prev[i - 1];
+    //        }
+    //    }
+    //    return NewArray;
+    //}
+    //public static Triangles[] AddTriangleArrayToArray(Triangles[] Prev, Triangles[] NewInput)
+    //{
+    //    if (Prev == null)
+    //    {
+    //        Prev = new Triangles[0];
+    //    }
+    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
+    //    for (int i = 0, i_ = 0; i < NewArray.Length; i++)
+    //    {
+    //        if (i < Prev.Length)
+    //        {
+    //            NewArray[i] = Prev[i];
+    //        }
+    //        else
+    //        {
+    //            NewArray[i] = NewInput[i_++];
+    //        }
+    //    }
+    //    return NewArray;
+    //}
+    ///*
+    //public static Triangles[] CleanTriangleArray(Triangles[] Prev, Triangles RemoveValue)
+    //{
+    //    Triangles[] NewArray = new Triangles[0];
+    //    for (int i = 0; i < Prev.Length; i++)
+    //    {
+    //        if (Prev[i] != RemoveValue)
+    //        {
+    //            NewArray = AddTriangleToArray(NewArray, Prev[i]);
+    //        }
+    //    }
+    //    return NewArray;
+    //}
+    //*/
+    //public static Triangles[] RemoveTrianglelByIndex(Triangles[] Prev, int Remove)
+    //{
+    //    if (Prev == null)
+    //    {
+    //        Prev = new Triangles[0];
+    //    }
+    //    Triangles[] NewArray = new Triangles[0];
+    //    for (int i = 0; i < Prev.Length; i++)
+    //    {
+    //        if (i != Remove)
+    //        {
+    //            NewArray = AddTriangleToArray(NewArray, Prev[i]);
+    //        }
+    //    }
+    //    return NewArray;
+    //}
 }
