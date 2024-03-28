@@ -1,194 +1,264 @@
-﻿    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Unity.Collections;
+using UnityEngine;
 
 public class DynamicArray
-{
+{   
     //GameObject array resizing
-    public static GameObject[] AddGameObjectToArray(GameObject[] Prev, GameObject NewObj)
+    private static GameObject[] TempAddGameObjectToArray;
+    private static GameObject[] NewArrayAddGameObjectToArray;
+    public static void AddGameObjectToArray(ref GameObject[] PrevArray, GameObject NewObj)
     {
-        if (Prev == null)
+        if (PrevArray == null)
         {
-            Prev = new GameObject[0];
+            PrevArray = new GameObject[0];
         }
-        GameObject[] Temp = Prev;
-        GameObject[] NewArray = new GameObject[Temp.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
+        TempAddGameObjectToArray = PrevArray;
+        NewArrayAddGameObjectToArray = new GameObject[TempAddGameObjectToArray.Length + 1];
+        for (int i = 0; i < NewArrayAddGameObjectToArray.Length; i++)
         {
-            if (i < Temp.Length)
+            if (i < TempAddGameObjectToArray.Length)
             {
-                NewArray[i] = Temp[i];
+                NewArrayAddGameObjectToArray[i] = TempAddGameObjectToArray[i];
             }
             else
             {
-                NewArray[i] = NewObj;
+                NewArrayAddGameObjectToArray[i] = NewObj;
             }
         }
-        return NewArray;
+        PrevArray = NewArrayAddGameObjectToArray;
+        //return NewArray;
     }
-    public static GameObject[] AddGameObjectToArrayAtIndex(GameObject[] Prev, GameObject NewInput, int Index)
+    private static GameObject[] NewArrayAddGameObjectToArrayAtIndex;
+    public static void AddGameObjectToArrayAtIndex(ref GameObject[] Prev, GameObject NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new GameObject[0];
-        }
-        GameObject[] NewArray = new GameObject[Prev.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
+        NewArrayAddGameObjectToArrayAtIndex = new GameObject[Prev.Length + 1];
+        for (int i = 0; i < NewArrayAddGameObjectToArrayAtIndex.Length; i++)
         {
             if (i < Index)
             {
-                NewArray[i] = Prev[i];
+                NewArrayAddGameObjectToArrayAtIndex[i] = Prev[i];
             }
             if (i == Index)
             {
-                NewArray[i] = NewInput;
+                NewArrayAddGameObjectToArrayAtIndex[i] = NewInput;
             }
             if (i > Index)
             {
-                NewArray[i] = Prev[i - 1];
+                NewArrayAddGameObjectToArrayAtIndex[i] = Prev[i - 1];
             }
         }
-        return NewArray;
+        Prev = NewArrayAddGameObjectToArrayAtIndex;
+        //return NewArray;
     }
-    public static GameObject[] AddGameObjectArrayToArray(GameObject[] Prev, GameObject[] NewObj)
+    private static GameObject[] TempAddGameObjectArrayToArray;//= PrevArray;
+    private static GameObject[] NewArrayAddGameObjectArrayToArray;// = new GameObject[Temp.Length + NewObj.Length];
+    public static void AddGameObjectArrayToArray(ref GameObject[] PrevArray, GameObject[] NewObj)
     {
-        if (Prev == null)
+        TempAddGameObjectArrayToArray = PrevArray;
+        NewArrayAddGameObjectArrayToArray = new GameObject[TempAddGameObjectArrayToArray.Length + NewObj.Length];
+        for (int i = 0, i_ = 0; i < NewArrayAddGameObjectArrayToArray.Length; i++)
         {
-            Prev = new GameObject[0];
-        }
-        GameObject[] Temp = Prev;
-        GameObject[] NewArray = new GameObject[Temp.Length + 1];
-        for (int i = 0, i_ = 0; i < NewArray.Length; i++)
-        {
-            if (i < Temp.Length)
+            if (i < TempAddGameObjectArrayToArray.Length)
             {
-                NewArray[i] = Temp[i];
+                NewArrayAddGameObjectArrayToArray[i] = TempAddGameObjectArrayToArray[i];
             }
             else
             {
-                NewArray[i] = NewObj[i_++];
+                NewArrayAddGameObjectArrayToArray[i] = NewObj[i_++];
             }
         }
-        return NewArray;
+        PrevArray = NewArrayAddGameObjectArrayToArray;
     }
-    public static GameObject[] CleanGameObjectArray(GameObject[] Prev)// Removes nulls from array
+    private static GameObject[] NewArrayCleanGameObjectArray;// = new GameObject[0];
+    public static void CleanGameObjectArray(ref GameObject[] Prev)// Removes nulls from array
     {
-        if (Prev == null)
-        {
-            Prev = new GameObject[0];
-        }
-        GameObject[] NewArray = new GameObject[0];
+        NewArrayCleanGameObjectArray = new GameObject[0];
         for (int i = 0; i < Prev.Length; i++)
         {
             if (Prev[i])
             {
-                NewArray = AddGameObjectToArray(NewArray, Prev[i]);
+                AddGameObjectToArray(ref NewArrayCleanGameObjectArray, Prev[i]);
             }
         }
-        return NewArray;
+        Prev = NewArrayCleanGameObjectArray;
     }
-    public static GameObject[] RemoveGameObjectByIndex(GameObject[] Prev, int Remove)// Removes nulls from array
+    private static GameObject[] NewArrayRemoveGameObjectByIndex;
+    public static void RemoveGameObjectByIndex(ref GameObject[] Prev, int Remove)// Removes nulls from array
     {
-        if (Prev == null)
-        {
-            Prev = new GameObject[0];
-        }
-        GameObject[] NewArray = new GameObject[0];
+        NewArrayRemoveGameObjectByIndex = new GameObject[0];
         for (int i = 0; i < Prev.Length; i++)
         {
             if (i != Remove)
             {
-                NewArray = AddGameObjectToArray(NewArray, Prev[i]);
+                AddGameObjectToArray(ref NewArrayRemoveGameObjectByIndex, Prev[i]);
             }
         }
-        return NewArray;
+        Prev = NewArrayRemoveGameObjectByIndex;
     }
-    public static float[] AddFloatToArray(float[] Prev, float NewFloat)
+    //Transform 
+
+    private static Transform[] TempAddTransformToArray;
+    private static Transform[] NewArrayAddTransformToArray;
+    public static void AddTransformToArray(ref Transform[] PrevArray, Transform NewObj)
     {
-        if (Prev == null)
+        if (PrevArray == null)
         {
-            Prev = new float[0];
+            PrevArray = new Transform[0];
         }
-        float[] NewArray = new float[Prev.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
+        TempAddTransformToArray = PrevArray;
+        NewArrayAddTransformToArray = new Transform[TempAddTransformToArray.Length + 1];
+        for (int i = 0; i < NewArrayAddTransformToArray.Length; i++)
         {
-            if (i < Prev.Length)
+            if (i < TempAddTransformToArray.Length)
             {
-                NewArray[i] = Prev[i];
+                NewArrayAddTransformToArray[i] = TempAddTransformToArray[i];
             }
             else
             {
-                NewArray[i] = NewFloat;
+                NewArrayAddTransformToArray[i] = NewObj;
             }
         }
-        return NewArray;
+        PrevArray = NewArrayAddTransformToArray;
     }
-    public static float[] AddFloatToArrayAtIndex(float[] Prev, float NewInput, int Index)
+    private static Transform[] NewArrayAddTransformToArrayAtIndex;// = new Transform[Prev.Length + 1];
+    public static void AddTransformToArrayAtIndex(ref Transform[] Prev, Transform NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new float[0];
-        }
-        float[] NewArray = new float[Prev.Length + 1];
-        for (int i = 0; i < NewArray.Length; i++)
+        NewArrayAddTransformToArrayAtIndex = new Transform[Prev.Length + 1];
+        for (int i = 0; i < NewArrayAddTransformToArrayAtIndex.Length; i++)
         {
             if (i < Index)
             {
-                NewArray[i] = Prev[i];
+                NewArrayAddTransformToArrayAtIndex[i] = Prev[i];
             }
             if (i == Index)
             {
-                NewArray[i] = NewInput;
+                NewArrayAddTransformToArrayAtIndex[i] = NewInput;
             }
             if (i > Index)
             {
-                NewArray[i] = Prev[i - 1];
+                NewArrayAddTransformToArrayAtIndex[i] = Prev[i - 1];
             }
         }
-        return NewArray;
+        Prev = NewArrayAddTransformToArrayAtIndex;
     }
-    public static float[] AddFloatArrayToArray(float[] Prev, float[] NewInput)
+    private static Transform[] TempAddTransformArrayToArray;// = PrevArray;
+    private static Transform[] NewArrayAddTransformArrayToArray;//= new Transform[Temp.Length + NewObj.Length];
+    public static void AddTransformArrayToArray(ref Transform[] PrevArray, Transform[] NewObj)
     {
-        if (Prev == null)
+        TempAddTransformArrayToArray = PrevArray;
+        NewArrayAddTransformArrayToArray = new Transform[TempAddTransformArrayToArray.Length + NewObj.Length];
+        for (int i = 0, i_ = 0; i < NewArrayAddTransformArrayToArray.Length; i++)
         {
-            Prev = new float[0];
-        }
-        float[] NewArray = new float[Prev.Length + 1];
-        for (int i = 0, i_ = 0; i < NewArray.Length; i++)
-        {
-            if (i < Prev.Length)
+            if (i < TempAddTransformArrayToArray.Length)
             {
-                NewArray[i] = Prev[i];
+                NewArrayAddTransformArrayToArray[i] = TempAddTransformArrayToArray[i];
             }
             else
             {
-                NewArray[i] = NewInput[i_++];
+                NewArrayAddTransformArrayToArray[i] = NewObj[i_++];
             }
         }
-        return NewArray;
+        PrevArray = NewArrayAddTransformArrayToArray;
     }
+    private static Transform[] NewArrayCleanTransformArray = new Transform[0];
+    public static void CleanTransformArray(ref Transform[] Prev)// Removes nulls from array
+    {
+        NewArrayCleanTransformArray = new Transform[0];
+        for (int i = 0; i < Prev.Length; i++)
+        {
+            if (Prev[i])
+            {
+                AddTransformToArray(ref NewArrayCleanTransformArray, Prev[i]);
+            }
+        }
+        Prev = NewArrayCleanTransformArray;
+    }
+    private static Transform[] NewArrayRemoveTransformByIndex = new Transform[0];
+    public static void RemoveTransformByIndex(ref Transform[] Prev, int Remove)// Removes nulls from array
+    {
+        NewArrayRemoveTransformByIndex = new Transform[0];
+        for (int i = 0; i < Prev.Length; i++)
+        {
+            if (i != Remove)
+            {
+                AddTransformToArray(ref NewArrayRemoveTransformByIndex, Prev[i]);
+            }
+        }
+        Prev = NewArrayRemoveTransformByIndex;
+    }
+    //
+    private static float[] NewArrayAddFloatToArray;// = new float[Prev.Length + 1];
+    public static float[] AddFloatToArray(float[] Prev, float NewFloat)
+    {
+        NewArrayAddFloatToArray = new float[Prev.Length + 1];
+        for (int i = 0; i < NewArrayAddFloatToArray.Length; i++)
+        {
+            if (i < Prev.Length)
+            {
+                NewArrayAddFloatToArray[i] = Prev[i];
+            }
+            else
+            {
+                NewArrayAddFloatToArray[i] = NewFloat;
+            }
+        }
+        return NewArrayAddFloatToArray;
+    }
+    private static float[] NewArrayAddFloatToArrayAtIndex;// = new float[Prev.Length + 1];
+    public static float[] AddFloatToArrayAtIndex(float[] Prev, float NewInput, int Index)
+    {
+        NewArrayAddFloatToArrayAtIndex = new float[Prev.Length + 1];
+        for (int i = 0; i < NewArrayAddFloatToArrayAtIndex.Length; i++)
+        {
+            if (i < Index)
+            {
+                NewArrayAddFloatToArrayAtIndex[i] = Prev[i];
+            }
+            if (i == Index)
+            {
+                NewArrayAddFloatToArrayAtIndex[i] = NewInput;
+            }
+            if (i > Index)
+            {
+                NewArrayAddFloatToArrayAtIndex[i] = Prev[i - 1];
+            }
+        }
+        return NewArrayAddFloatToArrayAtIndex;
+    }
+    private static float[] NewArrayAddFloatArrayToArray;
+    public static float[] AddFloatArrayToArray(float[] Prev, float[] NewInput)
+    {
+        NewArrayAddFloatArrayToArray = new float[Prev.Length + NewInput.Length];
+        for (int i = 0, i_ = 0; i < NewArrayAddFloatArrayToArray.Length; i++)
+        {
+            if (i < Prev.Length)
+            {
+                NewArrayAddFloatArrayToArray[i] = Prev[i];
+            }
+            else
+            {
+                NewArrayAddFloatArrayToArray[i] = NewInput[i_++];
+            }
+        }
+        return NewArrayAddFloatArrayToArray;
+    }
+    private static float[] NewArrayCleanFloatArray;
     public static float[] CleanFloatArray(float[] Prev, float RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new float[0];
-        }
-        float[] NewArray = new float[0];
+        NewArrayCleanFloatArray = new float[0];
         for (int i = 0; i < Prev.Length; i++)
         {
             if (Prev[i] != RemoveValue)
             {
-                NewArray = AddFloatToArray(NewArray, Prev[i]);
+                NewArrayCleanFloatArray = AddFloatToArray(NewArrayCleanFloatArray, Prev[i]);
             }
         }
-        return NewArray;
+        return NewArrayCleanFloatArray;
     }
     public static float[] RemoveFloatByIndex(float[] Prev, float RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new float[0];
-        }
         float[] NewArray = new float[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -199,9 +269,9 @@ public class DynamicArray
         }
         return NewArray;
     }
-    public static int[] AddIntToArray(int[] Prev, int NewInt)
+    public static void AddIntToArray(ref int[] Prev, int NewInt)
     {
-        if (Prev == null)
+        if(Prev == null)
         {
             Prev = new int[0];
         }
@@ -217,14 +287,10 @@ public class DynamicArray
                 NewArray[i] = NewInt;
             }
         }
-        return NewArray;
+        Prev = NewArray;
     }
     public static int[] AddIntToArrayAtIndex(int[] Prev, int NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new int[0];
-        }
         int[] NewArray = new int[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -246,11 +312,7 @@ public class DynamicArray
 
     public static int[] AddIntArrayToArray(int[] Prev, int[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new int[0];
-        }
-        int[] NewArray = new int[Prev.Length + 1];
+        int[] NewArray = new int[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -264,44 +326,32 @@ public class DynamicArray
         }
         return NewArray;
     }
-    public static int[] CleanIntArray(int[] Prev, int RemoveValue)
+    public static void CleanIntArray(ref int[] Prev, int RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new int[0];
-        }
         int[] NewArray = new int[0];
         for (int i = 0; i < Prev.Length; i++)
         {
             if (Prev[i] != RemoveValue)
             {
-                NewArray = AddIntToArray(NewArray, Prev[i]);
+                /*NewArray =*/ AddIntToArray(ref NewArray, Prev[i]);
             }
         }
-        return NewArray;
+        Prev = NewArray;
     }
     public static int[] RemoveIntByIndex(int[] Prev, int RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new int[0];
-        }
         int[] NewArray = new int[0];
         for (int i = 0; i < Prev.Length; i++)
         {
             if (i != RemoveValue)
             {
-                NewArray = AddIntToArray(NewArray, Prev[i]);
+                /*NewArray =*/ AddIntToArray(ref NewArray, Prev[i]);
             }
         }
         return NewArray;
     }
     public static Vector2[] AddVector2ToArray(Vector2[] Prev, Vector2 NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector2[0];
-        }
         Vector2[] NewArray = new Vector2[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -318,10 +368,6 @@ public class DynamicArray
     }
     public static Vector2[] AddVector2ToArrayAtIndex(Vector2[] Prev, Vector2 NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector2[0];
-        }
         Vector2[] NewArray = new Vector2[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -342,11 +388,7 @@ public class DynamicArray
     }
     public static Vector2[] AddVector2ArrayToArray(Vector2[] Prev, Vector2[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector2[0];
-        }
-        Vector2[] NewArray = new Vector2[Prev.Length + 1];
+        Vector2[] NewArray = new Vector2[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -362,10 +404,6 @@ public class DynamicArray
     }
     public static Vector2[] CleanVector2Array(Vector2[] Prev, Vector2 RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector2[0];
-        }
         Vector2[] NewArray = new Vector2[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -378,10 +416,6 @@ public class DynamicArray
     }
     public static Vector2[] RemoveVector2ByIndex (Vector2[] Prev, int Remove)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector2[0];
-        }
         Vector2[] NewArray = new Vector2[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -394,10 +428,6 @@ public class DynamicArray
     }
     public static Vector3[] AddVector3ToArray(Vector3[] Prev, Vector3 NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector3[0];
-        }
         Vector3[] NewArray = new Vector3[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -414,10 +444,6 @@ public class DynamicArray
     }
     public static Vector3[] AddVector3ToArrayAtIndex(Vector3[] Prev, Vector3 NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector3[0];
-        }
         Vector3[] NewArray = new Vector3[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -438,11 +464,7 @@ public class DynamicArray
     }
     public static Vector3[] AddVector3ArrayToArray(Vector3[] Prev, Vector3[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector3[0];
-        }
-        Vector3[] NewArray = new Vector3[Prev.Length + 1];
+        Vector3[] NewArray = new Vector3[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -458,10 +480,6 @@ public class DynamicArray
     }
     public static Vector3[] CleanVector3Array(Vector3[] Prev, Vector3 RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector3[0];
-        }
         Vector3[] NewArray = new Vector3[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -474,10 +492,6 @@ public class DynamicArray
     }
     public static Vector3[] RemoveVector3ByIndex(Vector3[] Prev, int Remove)
     {
-        if (Prev == null)
-        {
-            Prev = new Vector3[0];
-        }
         Vector3[] NewArray = new Vector3[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -491,10 +505,6 @@ public class DynamicArray
     //
     public static Quaternion[] AddQuaternionToArray(Quaternion[] Prev, Quaternion NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Quaternion[0];
-        }
         Quaternion[] NewArray = new Quaternion[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -511,10 +521,6 @@ public class DynamicArray
     }
     public static Quaternion[] AddQuaternionToArrayAtIndex(Quaternion[] Prev, Quaternion NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new Quaternion[0];
-        }
         Quaternion[] NewArray = new Quaternion[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -535,11 +541,7 @@ public class DynamicArray
     }
     public static Quaternion[] AddQuaternionArrayToArray(Quaternion[] Prev, Quaternion[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Quaternion[0];
-        }
-        Quaternion[] NewArray = new Quaternion[Prev.Length + 1];
+        Quaternion[] NewArray = new Quaternion[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -555,10 +557,6 @@ public class DynamicArray
     }
     public static Quaternion[] CleanQuaternionArray(Quaternion[] Prev, Quaternion RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new Quaternion[0];
-        }
         Quaternion[] NewArray = new Quaternion[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -571,10 +569,6 @@ public class DynamicArray
     }
     public static Quaternion[] RemoveQuaternionByIndex(Quaternion[] Prev, int Remove)
     {
-        if (Prev == null)
-        {
-            Prev = new Quaternion[0];
-        }
         Quaternion[] NewArray = new Quaternion[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -587,10 +581,6 @@ public class DynamicArray
     }
     public static string[] AddStringToArray(string[] Prev, string NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new string[0];
-        }
         string[] NewArray = new string[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -607,10 +597,6 @@ public class DynamicArray
     }
     public static string[] AddStringToArrayAtIndex(string[] Prev, string NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new string[0];
-        }
         string[] NewArray = new string[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -631,11 +617,7 @@ public class DynamicArray
     }
     public static string[] AddStringArrayToArray(string[] Prev, string[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new string[0];
-        }
-        string[] NewArray = new string[Prev.Length + 1];
+        string[] NewArray = new string[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -651,10 +633,6 @@ public class DynamicArray
     }
     public static string[] CleanStringArray(string[] Prev, string RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new string[0];
-        }
         string[] NewArray = new string[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -667,10 +645,6 @@ public class DynamicArray
     }
     public static string[] RemoveStringByIndex(string[] Prev, int Remove)
     {
-        if (Prev == null)
-        {
-            Prev = new string[0];
-        }
         string[] NewArray = new string[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -684,7 +658,7 @@ public class DynamicArray
     /// mesh filter
     public static MeshFilter[] AddMeshFilterToArray(MeshFilter[] Prev, MeshFilter NewInput)
     {
-        if (Prev == null)
+        if(Prev == null)
         {
             Prev = new MeshFilter[0];
         }
@@ -703,11 +677,7 @@ public class DynamicArray
         return NewArray;
     }
     public static MeshFilter[] AddMeshFilterToArrayAtIndex(MeshFilter[] Prev, MeshFilter NewInput, int Index)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshFilter[0];
-        }
+{
         MeshFilter[] NewArray = new MeshFilter[Prev.Length + 1];
     for (int i = 0; i < NewArray.Length; i++)
     {
@@ -725,14 +695,10 @@ public class DynamicArray
         }
     }
     return NewArray;
-    }
-    public static MeshFilter[] AddMeshFilterArrayToArray(MeshFilter[] Prev, MeshFilter[] NewInput)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshFilter[0];
-        }
-        MeshFilter[] NewArray = new MeshFilter[Prev.Length + 1];
+}
+public static MeshFilter[] AddMeshFilterArrayToArray(MeshFilter[] Prev, MeshFilter[] NewInput)
+{
+        MeshFilter[] NewArray = new MeshFilter[Prev.Length + NewInput.Length];
     for (int i = 0, i_ = 0; i < NewArray.Length; i++)
     {
         if (i < Prev.Length)
@@ -745,13 +711,9 @@ public class DynamicArray
         }
     }
     return NewArray;
-    }
-    public static MeshFilter[] CleanMeshFilterArray(MeshFilter[] Prev, MeshFilter RemoveValue)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshFilter[0];
-        }
+}
+public static MeshFilter[] CleanMeshFilterArray(MeshFilter[] Prev, MeshFilter RemoveValue)
+{
         MeshFilter[] NewArray = new MeshFilter[0];
     for (int i = 0; i < Prev.Length; i++)
     {
@@ -761,14 +723,10 @@ public class DynamicArray
         }
     }
     return NewArray;
-    }
-    public static MeshFilter[] RemoveMeshFilterByIndex(MeshFilter[] Prev, int Remove)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshFilter[0];
-        }
-        MeshFilter[] NewArray = new MeshFilter[0];
+}
+public static MeshFilter[] RemoveMeshFilterByIndex(MeshFilter[] Prev, int Remove)
+{
+    MeshFilter[] NewArray = new MeshFilter[0];
     for (int i = 0; i < Prev.Length; i++)
     {
         if (i != Remove)
@@ -777,14 +735,10 @@ public class DynamicArray
         }
     }
     return NewArray;
-    }
+}
     /// Material
     public static Material[] AddMaterialToArray(Material[] Prev, Material NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Material[0];
-        }
         Material[] NewArray = new Material[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -801,10 +755,6 @@ public class DynamicArray
     }
     public static Material[] AddMaterialToArrayAtIndex(Material[] Prev, Material NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new Material[0];
-        }
         Material[] NewArray = new Material[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -825,11 +775,7 @@ public class DynamicArray
     }
     public static Material[] AddMaterialArrayToArray(Material[] Prev, Material[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new Material[0];
-        }
-        Material[] NewArray = new Material[Prev.Length + 1];
+        Material[] NewArray = new Material[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -845,10 +791,6 @@ public class DynamicArray
     }
     public static Material[] CleanMaterialArray(Material[] Prev, Material RemoveValue)
     {
-        if (Prev == null)
-        {
-            Prev = new Material[0];
-        }
         Material[] NewArray = new Material[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -861,10 +803,6 @@ public class DynamicArray
     }
     public static Material[] RemoveMaterialByIndex(Material[] Prev, int Remove)
     {
-        if (Prev == null)
-        {
-            Prev = new Material[0];
-        }
         Material[] NewArray = new Material[0];
         for (int i = 0; i < Prev.Length; i++)
         {
@@ -876,13 +814,9 @@ public class DynamicArray
         return NewArray;
 
     }
-    /// MeshRenderer
+    /// Material
     public static MeshRenderer[] AddMeshRendererToArray(MeshRenderer[] Prev, MeshRenderer NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new MeshRenderer[0];
-        }
         MeshRenderer[] NewArray = new MeshRenderer[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -899,10 +833,6 @@ public class DynamicArray
     }
     public static MeshRenderer[] AddMeshRendererToArrayAtIndex(MeshRenderer[] Prev, MeshRenderer NewInput, int Index)
     {
-        if (Prev == null)
-        {
-            Prev = new MeshRenderer[0];
-        }
         MeshRenderer[] NewArray = new MeshRenderer[Prev.Length + 1];
         for (int i = 0; i < NewArray.Length; i++)
         {
@@ -923,11 +853,7 @@ public class DynamicArray
     }
     public static MeshRenderer[] AddMeshRendererArrayToArray(MeshRenderer[] Prev, MeshRenderer[] NewInput)
     {
-        if (Prev == null)
-        {
-            Prev = new MeshRenderer[0];
-        }
-        MeshRenderer[] NewArray = new MeshRenderer[Prev.Length + 1];
+        MeshRenderer[] NewArray = new MeshRenderer[Prev.Length + NewInput.Length];
         for (int i = 0, i_ = 0; i < NewArray.Length; i++)
         {
             if (i < Prev.Length)
@@ -941,132 +867,6 @@ public class DynamicArray
         }
         return NewArray;
     }
-    public static MeshRenderer[] CleanMeshRendererArray(MeshRenderer[] Prev, MeshRenderer RemoveValue)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshRenderer[0];
-        }
-        MeshRenderer[] NewArray = new MeshRenderer[0];
-        for (int i = 0; i < Prev.Length; i++)
-        {
-            if (Prev[i] != RemoveValue)
-            {
-                NewArray = AddMeshRendererToArray(NewArray, Prev[i]);
-            }
-        }
-        return NewArray;
-    }
-    public static MeshRenderer[] RemoveMaterialByIndex(MeshRenderer[] Prev, int Remove)
-    {
-        if (Prev == null)
-        {
-            Prev = new MeshRenderer[0];
-        }
-        MeshRenderer[] NewArray = new MeshRenderer[0];
-        for (int i = 0; i < Prev.Length; i++)
-        {
-            if (i != Remove)
-            {
-                NewArray = AddMeshRendererToArray(NewArray, Prev[i]);
-            }
-        }
-        return NewArray;
-    }
-
-    ///// Traingles Struct
-    //public static Triangles[] AddTriangleToArray(Triangles[] Prev, Triangles NewInput)
-    //{
-    //    if (Prev == null)
-    //    {
-    //        Prev = new Triangles[0];
-    //    }
-    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
-    //    for (int i = 0; i < NewArray.Length; i++)
-    //    {
-    //        if (i < Prev.Length)
-    //        {
-    //            NewArray[i] = Prev[i];
-    //        }
-    //        else
-    //        {
-    //            NewArray[i] = NewInput;
-    //        }
-    //    }
-    //    return NewArray;
-    //}
-    //public static Triangles[] AddTriangleToArrayAtIndex(Triangles[] Prev, Triangles NewInput, int Index)
-    //{
-    //    if (Prev == null)
-    //    {
-    //        Prev = new Triangles[0];
-    //    }
-    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
-    //    for (int i = 0; i < NewArray.Length; i++)
-    //    {
-    //        if (i < Index)
-    //        {
-    //            NewArray[i] = Prev[i];
-    //        }
-    //        if (i == Index)
-    //        {
-    //            NewArray[i] = NewInput;
-    //        }
-    //        if (i > Index)
-    //        {
-    //            NewArray[i] = Prev[i - 1];
-    //        }
-    //    }
-    //    return NewArray;
-    //}
-    //public static Triangles[] AddTriangleArrayToArray(Triangles[] Prev, Triangles[] NewInput)
-    //{
-    //    if (Prev == null)
-    //    {
-    //        Prev = new Triangles[0];
-    //    }
-    //    Triangles[] NewArray = new Triangles[Prev.Length + 1];
-    //    for (int i = 0, i_ = 0; i < NewArray.Length; i++)
-    //    {
-    //        if (i < Prev.Length)
-    //        {
-    //            NewArray[i] = Prev[i];
-    //        }
-    //        else
-    //        {
-    //            NewArray[i] = NewInput[i_++];
-    //        }
-    //    }
-    //    return NewArray;
-    //}
-    ///*
-    //public static Triangles[] CleanTriangleArray(Triangles[] Prev, Triangles RemoveValue)
-    //{
-    //    Triangles[] NewArray = new Triangles[0];
-    //    for (int i = 0; i < Prev.Length; i++)
-    //    {
-    //        if (Prev[i] != RemoveValue)
-    //        {
-    //            NewArray = AddTriangleToArray(NewArray, Prev[i]);
-    //        }
-    //    }
-    //    return NewArray;
-    //}
-    //*/
-    //public static Triangles[] RemoveTrianglelByIndex(Triangles[] Prev, int Remove)
-    //{
-    //    if (Prev == null)
-    //    {
-    //        Prev = new Triangles[0];
-    //    }
-    //    Triangles[] NewArray = new Triangles[0];
-    //    for (int i = 0; i < Prev.Length; i++)
-    //    {
-    //        if (i != Remove)
-    //        {
-    //            NewArray = AddTriangleToArray(NewArray, Prev[i]);
-    //        }
-    //    }
-    //    return NewArray;
-    //}
+  
+   
 }
